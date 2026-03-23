@@ -3,9 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { LayoutDashboard, Users, Image as ImageIcon, MessageSquare, LogOut, ExternalLink, RefreshCw, Trash2, Check, X, Clock, Edit3 } from 'lucide-react'
 
 // Sub-components
-import BookingTable from '../components/admin/BookingTable'
-import MediaManager from '../components/admin/MediaManager'
-import SiteEditor from '../components/admin/SiteEditor'
+import BookingTable from '../../components/admin/BookingTable'
+import MediaManager from '../../components/admin/MediaManager'
+import SiteEditor from '../../components/admin/SiteEditor'
 
 export default function AdminPage() {
   const [activeTab, setActiveTab] = useState('bookings')

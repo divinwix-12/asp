@@ -1,40 +1,11 @@
-const sqlite3 = require('sqlite3').verbose();
-const path = require('path');
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
 
-const DB_PATH = path.join(__dirname, 'alpha.db');
-const db = new sqlite3.Database(DB_PATH);
-
-// Initialize DB schema
-db.serialize(() => {
-  // Bookings
-  db.run(`CREATE TABLE IF NOT EXISTS bookings (
-    id TEXT PRIMARY KEY,
-    name TEXT,
-    email TEXT,
-    serviceType TEXT,
-    eventDate TEXT,
-    location TEXT,
-    message TEXT,
-    status TEXT DEFAULT 'Pending',
-    createdAt TEXT
-  )`);
-
-  // Site Config
-  db.run(`CREATE TABLE IF NOT EXISTS site_config (
-    id INTEGER PRIMARY KEY DEFAULT 1,
-    config TEXT
-  )`);
-
-  // Images
-  db.run(`CREATE TABLE IF NOT EXISTS images (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    url TEXT,
-    title TEXT
-  )`);
-
-  // Initial Data Seed if empty
-  db.get("SELECT COUNT(*) as count FROM site_config", (err, row) => {
-    if (row && row.count === 0) {
+// Initial Data Seed if empty
+async function initializeDB() {
+  try {
+    const configCount = await prisma.siteConfig.count();
+    if (configCount === 0) {
       const initialConfig = {
         hero: {
           bg: 'https://images.unsplash.com/photo-1544644181-1484b3fdfc62?q=80&w=1000&auto=format&fit=crop',
@@ -57,65 +28,93 @@ db.serialize(() => {
           address: '26CF+FH5 Kabuga Bus Station, Kabuga, Kigali, Rwanda'
         }
       };
-      db.run("INSERT INTO site_config (config) VALUES (?)", [JSON.stringify(initialConfig)]);
+      await prisma.siteConfig.create({
+        data: { id: 1, config: JSON.stringify(initialConfig) }
+      });
     }
-  });
 
-  db.get("SELECT COUNT(*) as count FROM images", (err, row) => {
-    if (row && row.count === 0) {
-       db.run("INSERT INTO images (url, title) VALUES (?, ?)", ['https://images.unsplash.com/photo-1544644181-1484b3fdfc62', 'Coffee Ritual']);
-       db.run("INSERT INTO images (url, title) VALUES (?, ?)", ['https://images.unsplash.com/photo-1578911373434-0cb395d2cbfb', 'Ingenzi Dancers']);
+    const imageCount = await prisma.image.count();
+    if (imageCount === 0) {
+      await prisma.image.createMany({
+        data: [
+          { url: 'https://images.unsplash.com/photo-1544644181-1484b3fdfc62', title: 'Coffee Ritual' },
+          { url: 'https://images.unsplash.com/photo-1578911373434-0cb395d2cbfb', title: 'Ingenzi Dancers' }
+        ]
+      });
     }
-  });
-});
+  } catch (err) {
+    console.error("Initialization error (DB might not be ready):", err);
+  }
+}
+
+// Run init asynchronously so the app doesn't block if Neon DB is connecting.
+initializeDB();
 
 module.exports = {
   // Bookings helpers
-  getBookings: () => new Promise((resolve, reject) => {
-    db.all("SELECT * FROM bookings ORDER BY createdAt DESC", (err, rows) => {
-      if (err) reject(err); else resolve(rows);
+  getBookings: async () => {
+    return await prisma.booking.findMany({
+      orderBy: { createdAt: 'desc' }
     });
-  }),
-  addBooking: (booking) => new Promise((resolve, reject) => {
-    const { id, name, email, serviceType, eventDate, location, message, status, createdAt } = booking;
-    db.run(
-      "INSERT INTO bookings (id, name, email, serviceType, eventDate, location, message, status, createdAt) VALUES (?,?,?,?,?,?,?,?,?)",
-      [id, name, email, serviceType, eventDate, location, message, status, createdAt],
-      function(err) { if (err) reject(err); else resolve({ ...booking }); }
-    );
-  }),
-  updateBookingStatus: (id, status) => new Promise((resolve, reject) => {
-    db.run("UPDATE bookings SET status = ? WHERE id = ?", [status, id], function(err) {
-      if (err) reject(err); else resolve(this.changes > 0);
+  },
+  addBooking: async (booking) => {
+    return await prisma.booking.create({
+      data: {
+        id: booking.id,
+        name: booking.name,
+        email: booking.email,
+        serviceType: booking.serviceType,
+        eventDate: booking.eventDate,
+        location: booking.location,
+        message: booking.message,
+        status: booking.status,
+        createdAt: booking.createdAt
+      }
     });
-  }),
+  },
+  updateBookingStatus: async (id, status) => {
+    try {
+      await prisma.booking.update({
+        where: { id },
+        data: { status }
+      });
+      return true;
+    } catch {
+      return false;
+    }
+  },
 
   // Config helpers
-  getConfig: () => new Promise((resolve, reject) => {
-    db.get("SELECT config FROM site_config WHERE id = 1", (err, row) => {
-      if (err) reject(err); else resolve(row ? JSON.parse(row.config) : null);
+  getConfig: async () => {
+    const row = await prisma.siteConfig.findUnique({ where: { id: 1 } });
+    return row ? JSON.parse(row.config) : null;
+  },
+  updateConfig: async (config) => {
+    await prisma.siteConfig.upsert({
+      where: { id: 1 },
+      update: { config: JSON.stringify(config) },
+      create: { id: 1, config: JSON.stringify(config) }
     });
-  }),
-  updateConfig: (config) => new Promise((resolve, reject) => {
-    db.run("UPDATE site_config SET config = ? WHERE id = 1", [JSON.stringify(config)], function(err) {
-      if (err) reject(err); else resolve(config);
-    });
-  }),
+    return config;
+  },
 
   // Images helpers
-  getImages: () => new Promise((resolve, reject) => {
-    db.all("SELECT * FROM images", (err, rows) => {
-      if (err) reject(err); else resolve(rows);
+  getImages: async () => {
+    return await prisma.image.findMany();
+  },
+  addImage: async (image) => {
+    return await prisma.image.create({
+      data: { url: image.url, title: image.title }
     });
-  }),
-  addImage: (image) => new Promise((resolve, reject) => {
-    db.run("INSERT INTO images (url, title) VALUES (?, ?)", [image.url, image.title], function(err) {
-      if (err) reject(err); else resolve({ id: this.lastID, ...image });
-    });
-  }),
-  deleteImage: (id) => new Promise((resolve, reject) => {
-    db.run("DELETE FROM images WHERE id = ?", [id], function(err) {
-      if (err) reject(err); else resolve(this.changes > 0);
-    });
-  })
+  },
+  deleteImage: async (id) => {
+    try {
+      await prisma.image.delete({
+        where: { id: parseInt(id) }
+      });
+      return true;
+    } catch {
+      return false;
+    }
+  }
 };

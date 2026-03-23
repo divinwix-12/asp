@@ -121,5 +121,14 @@ module.exports = {
     } catch {
       return false;
     }
+  },
+  // Debug helper to see what the server actually sees inside the DB
+  debug_listTables: async () => {
+    try {
+      const res = await pool.query("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'");
+      return res.rows.map(row => row.table_name);
+    } catch (err) {
+      return ["Error listing tables: " + err.message];
+    }
   }
 };

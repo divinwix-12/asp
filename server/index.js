@@ -10,6 +10,26 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(bodyParser.json());
 
+app.get('/api/health', async (req, res) => {
+  try {
+    const config = await db.getConfig();
+    const tables = await db.debug_listTables();
+    const dbHost = process.env.DATABASE_URL ? new URL(process.env.DATABASE_URL).hostname : 'NOT SET';
+    res.json({ 
+      status: 'ok', 
+      dbHost, 
+      tables, 
+      configInitialized: !!config 
+    });
+  } catch (err) { 
+    res.status(500).json({ 
+      status: 'error', 
+      error: err.message,
+      dbHost: process.env.DATABASE_URL ? new URL(process.env.DATABASE_URL).hostname : 'NOT SET'
+    }); 
+  }
+});
+
 // API Routes
 app.get('/api/config', async (req, res) => {
   try {

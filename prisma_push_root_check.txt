@@ -1,0 +1,39 @@
+﻿node.exe : Loaded Prisma 
+config from prisma.config.ts.
+At line:1 char:1
++ & "C:\Program 
+Files\nodejs/node.exe" "C:\Us
+ers\wixdi\AppData\Roaming\ 
+...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~
+    + CategoryInfo           
+   : NotSpecified: (Loaded   
+  Prisma c...isma.config.t   
+ s.:String) [], RemoteExc    
+eption
+    + FullyQualifiedErrorId  
+   : NativeCommandError
+ 
+
+Prisma schema loaded from 
+prisma\schema.prisma.
+Datasource "db": PostgreSQL database "neondb", schema "public" at "ep-dark-tree-a49qo5gd-pooler.us-east-1.aws.neon.tech"
+
+ΓÜá∩╕Å  There might be data loss when applying the changes:
+
+  ΓÇó You are about to drop the `Biker` table, which is not empty (1 rows).
+
+  ΓÇó You are about to drop the `Category` table, which is not empty (7 rows).
+
+  ΓÇó You are about to drop the `Dish` table, which is not empty (40 rows).
+
+  ΓÇó You are about to drop the `Restaurant` table, which is not empty (5 rows).
+
+  ΓÇó You are about to drop the `User` table, which is not empty (8 rows).
+
+
+
+Your database is now in sync with your Prisma schema. Done in 27.09s
+

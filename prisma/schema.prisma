@@ -16,15 +16,21 @@ model Booking {
   message     String?
   status      String   @default("Pending")
   createdAt   String?
+
+  @@map("bookings")
 }
 
 model SiteConfig {
   id     Int    @id @default(1)
   config String
+
+  @@map("site_config")
 }
 
 model Image {
   id    Int    @id @default(autoincrement())
   url   String
   title String
+
+  @@map("images")
 }

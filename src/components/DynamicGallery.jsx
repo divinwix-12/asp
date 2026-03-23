@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { useRealtimeEvents } from '../hooks/useSiteConfig'
+
 
 export default function DynamicGallery() {
   const [images, setImages] = useState([])
@@ -16,12 +16,6 @@ export default function DynamicGallery() {
     fetchImages()
   }, [])
 
-  // Auto-update when admin changes gallery
-  useRealtimeEvents((payload) => {
-    if (payload.type === 'gallery-update') {
-      setImages(payload.images)
-    }
-  })
 
   if (images.length === 0) return null
 

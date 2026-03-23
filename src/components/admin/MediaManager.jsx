@@ -29,15 +29,22 @@ export default function MediaManager() {
     e && e.preventDefault()
     if (!newUrl) return
     try {
-      await fetch('/api/images', {
+      const res = await fetch('/api/images', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ url: newUrl, title: newTitle || 'New Gallery Item' }),
       })
+      if (!res.ok) {
+        const errData = await res.json();
+        throw new Error(errData.error || 'Failed to save to database');
+      }
       setNewUrl('')
       setNewTitle('')
       fetchImages()
-    } catch (err) { console.error(err) }
+    } catch (err) { 
+      alert(`Save Failed: ${err.message}`);
+      console.error(err); 
+    }
   }
 
   const handleFileUpload = async (e) => {
@@ -46,18 +53,23 @@ export default function MediaManager() {
 
     setUploading(true)
     try {
-      await Promise.all(files.map(async (file) => {
+      // Use a sequential approach or map to promises that check response.ok
+      for (const file of files) {
         const secureUrl = await uploadToCloudinary(file)
-        return fetch('/api/images', {
+        const res = await fetch('/api/images', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ url: secureUrl, title: file.name }),
         })
-      }))
+        if (!res.ok) {
+          const errData = await res.json();
+          throw new Error(errData.error || `Failed to save ${file.name} to database`);
+        }
+      }
       setNewTitle('')
-      fetchImages()
+      await fetchImages()
     } catch (err) {
-      alert(`Cloudinary Upload Failed: ${err.message}`)
+      alert(`Upload/Save Failed: ${err.message}`)
       console.error(err)
     } finally {
       setUploading(false)

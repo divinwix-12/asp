@@ -8,7 +8,11 @@ export function useSiteConfig() {
     try {
       const res = await fetch('/api/config')
       const data = await res.json()
-      setSiteConfig(data)
+      if (res.ok && data && !data.error) {
+        setSiteConfig(data)
+      } else {
+        throw new Error(data.error || 'Failed to load configuration')
+      }
     } catch (err) { 
       console.error(err)
       setSiteConfig({
@@ -27,8 +31,15 @@ export function useSiteConfig() {
         body: JSON.stringify(newConfig)
       })
       const data = await res.json()
-      setSiteConfig(data)
-    } catch (err) { console.error(err) }
+      if (res.ok && !data.error) {
+        setSiteConfig(data)
+      } else {
+        alert(`Update Failed: ${data.error || 'Unknown error'}`)
+      }
+    } catch (err) { 
+        alert(`Update Failed: ${err.message}`)
+        console.error(err) 
+    }
   }
 
   useEffect(() => {

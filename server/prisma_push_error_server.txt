@@ -1,0 +1,25 @@
+﻿node.exe : Loaded Prisma 
+config from prisma.config.ts.
+At line:1 char:1
++ & "C:\Program 
+Files\nodejs/node.exe" "C:\Us
+ers\wixdi\AppData\Roaming\ 
+...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~
+    + CategoryInfo           
+   : NotSpecified: (Loaded   
+  Prisma c...isma.config.t   
+ s.:String) [], RemoteExc    
+eption
+    + FullyQualifiedErrorId  
+   : NativeCommandError
+ 
+
+Error: Could not load schema 
+from `C:\Users\wixdi\Document
+s\GitHub\asp\server\prisma\sc
+hema.prisma` provided by 
+"prisma.config.ts"`: file or 
+directory not found

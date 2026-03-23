@@ -1,0 +1,23 @@
+﻿node.exe : Prisma schema 
+loaded from 
+prisma\schema.prisma.
+At line:1 char:1
++ & "C:\Program 
+Files\nodejs/node.exe" "C:\Us
+ers\wixdi\AppData\Roaming\ 
+...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~
+    + CategoryInfo           
+   : NotSpecified: (Prisma   
+  schema l...\schema.prism   
+ a.:String) [], RemoteExc    
+eption
+    + FullyQualifiedErrorId  
+   : NativeCommandError
+ 
+Error: The datasource.url 
+property is required in your 
+Prisma config file when 
+using prisma db push.

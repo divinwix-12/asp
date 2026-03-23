@@ -1,0 +1,25 @@
+﻿node.exe : Loaded Prisma 
+config from prisma.config.ts.
+At line:1 char:1
++ & "C:\Program 
+Files\nodejs/node.exe" "C:\Us
+ers\wixdi\AppData\Roaming\ 
+...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~
+    + CategoryInfo           
+   : NotSpecified: (Loaded   
+  Prisma c...isma.config.t   
+ s.:String) [], RemoteExc    
+eption
+    + FullyQualifiedErrorId  
+   : NativeCommandError
+ 
+
+Prisma schema loaded from 
+..\prisma\schema.prisma.
+Datasource "db": PostgreSQL database "neondb", schema "public" at "ep-wandering-rain-a4qmy5ie-pooler.us-east-1.aws.neon.tech"
+
+The database is already in sync with the Prisma schema.
+

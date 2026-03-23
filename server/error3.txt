@@ -1,0 +1,60 @@
+﻿[dotenv@17.3.1] injecting env (1) from .env -- tip: ≡ƒöÉ encrypt with Dotenvx: https://dotenvx.com
+Elite Realtime Backend (SQLite) running on http://127.0.0.1:3001
+node : (node:8072) Warning: 
+SECURITY WARNING: The SSL 
+modes 'prefer', 'require', 
+and 'verify-ca' are treated 
+as aliases for 'verify-full'.
+At line:1 char:1
++ node index.js 2>&1 | 
+Out-File -Encoding utf8 
+error3.txt
++ ~~~~~~~~~~~~~~~~~~
+    + CategoryInfo           
+   : NotSpecified: ((node:8  
+  072) War... 'verify-full   
+ '.:String) [], RemoteExc    
+eption
+    + FullyQualifiedErrorId  
+   : NativeCommandError
+ 
+In the next major version 
+(pg-connection-string v3.0.0 
+and pg v9.0.0), these modes 
+will adopt standard libpq 
+semantics, which have weaker 
+security guarantees.
+
+To prepare for this change:
+- If you want the current 
+behavior, explicitly use 
+'sslmode=verify-full'
+- If you want libpq 
+compatibility now, use 'useli
+bpqcompat=true&sslmode=requir
+e'
+
+See https://www.postgresql.or
+g/docs/current/libpq-ssl.html
+ for libpq SSL mode 
+definitions.
+(Use `node --trace-warnings 
+...` to show where the 
+warning was created)
+Elite Admin/User Connected: P8bECJWMGR3QYg8HAAAB
+Elite Disconnected
+Elite Admin/User Connected: kp4lHWlgybpO8ZMlAAAD
+Elite Disconnected
+Elite Admin/User Connected: haIz4ftVz75kUdcYAAAF
+Elite Disconnected
+Elite Admin/User Connected: 1ZranemQooz4QEQhAAAH
+Elite Disconnected
+Elite Admin/User Connected: SmnzCTcSAUOEkyjlAAAJ
+Elite Disconnected
+Elite Admin/User Connected: oA6NkVhMuXn19I87AAAL
+Elite Disconnected
+Elite Admin/User Connected: MJuNa6y3tbrbRqzzAAAN
+Elite Disconnected
+Elite Admin/User Connected: Z3eXADyMe6vEsnbrAAAP
+Elite Disconnected
+Elite Admin/User Connected: Xp107g-uXUXJeDAfAAAR

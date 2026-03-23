@@ -104,5 +104,5 @@ app.delete('/api/images/:id', async (req, res) => {
 });
 
 server.listen(PORT, '127.0.0.1', () => {
-  console.log(`Elite Realtime Backend (SQLite) running on http://127.0.0.1:${PORT}`);
+  console.log(`Elite Realtime Backend (PostgreSQL) running on http://127.0.0.1:${PORT}`);
 });

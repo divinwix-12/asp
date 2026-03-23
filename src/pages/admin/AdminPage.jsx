@@ -16,12 +16,17 @@ export default function AdminPage() {
     try {
       const res = await fetch('/api/bookings')
       const data = await res.json()
-      setBookings(data)
-      setStats({
-        total: data.length,
-        pending: data.filter(b => b.status === 'Pending').length,
-        completed: data.filter(b => b.status === 'Completed').length,
-      })
+      if (Array.isArray(data)) {
+        setBookings(data)
+        setStats({
+          total: data.length,
+          pending: data.filter(b => b.status === 'Pending').length,
+          completed: data.filter(b => b.status === 'Completed').length,
+        })
+      } else {
+        console.error("API returned non-array:", data);
+        setBookings([])
+      }
     } catch (err) { console.error(err) }
   }
 

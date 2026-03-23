@@ -8,7 +8,14 @@ export default function DynamicGallery() {
   const fetchImages = () => {
     fetch('/api/images')
       .then(res => res.json())
-      .then(data => setImages(data))
+      .then(data => {
+        if (Array.isArray(data)) {
+          setImages(data);
+        } else {
+          console.error("API returned non-array:", data);
+          setImages([]);
+        }
+      })
       .catch(err => console.error(err))
   }
 

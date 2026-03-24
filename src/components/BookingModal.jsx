@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, Send, Calendar, MapPin, Briefcase, Mail, User } from 'lucide-react'
+import { X, Send, Calendar, MapPin, Briefcase, Mail, User, Phone } from 'lucide-react'
 
 export default function BookingModal({ isOpen, onClose }) {
   const [formData, setFormData] = useState({
@@ -154,7 +154,8 @@ export default function BookingModal({ isOpen, onClose }) {
                     <option value="Service & Protocol">Service & Protocol</option>
                     <option value="Catering">Catering</option>
                     <option value="Groomsmen & Bridesmaids">Groomsmen & Bridesmaids</option>
-                    <option value="Coffee & Trad">Coffee & Trad Ceremony</option>
+                    <option value="Coffee & Traditional Dance">Coffee & Traditional Dance</option>
+                    <option value="Saxo & Band">Saxo & Band</option>
                     <option value="Wedding Planning">Wedding Planning</option>
                   </select>
                 </div>

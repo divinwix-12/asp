@@ -1,12 +1,13 @@
 import { motion } from 'framer-motion'
-import { Shield, Coffee, Users, Calendar, Utensils } from 'lucide-react'
+import { Shield, Coffee, Users, Calendar, Utensils, Music } from 'lucide-react'
 
 const services = [
   { id: '01', title: 'Service & Protocol', icon: <Shield size={22} />, description: 'Elite hospitality with seamless synchronization and world-class etiquette.' },
   { id: '02', title: 'Catering', icon: <Utensils size={22} />, description: 'Modern Rwandan cuisine presented with gravity-defying precision.' },
   { id: '03', title: 'Wedding Support', icon: <Users size={22} />, description: 'Coordination of wedding parties with effortless traditional respect.' },
-  { id: '04', title: 'Coffee & Trad', icon: <Coffee size={22} />, description: 'Traditional coffee ceremonies and performative Ingenzi dancers.' },
-  { id: '05', title: 'Planning & Ops', icon: <Calendar size={22} />, description: 'Concept-to-execution via our signature anti-gravity method.' },
+  { id: '04', title: 'Coffee & Trad. Dance', icon: <Coffee size={22} />, description: 'Traditional coffee ceremonies and cultural dance performances.' },
+  { id: '05', title: 'Saxo & Band', icon: <Music size={22} />, description: 'Live saxophone performances paired with a full band.' },
+  { id: '06', title: 'Planning & Ops', icon: <Calendar size={22} />, description: 'Concept-to-execution via our signature anti-gravity method.' },
 ]
 
 export default function Services() {
